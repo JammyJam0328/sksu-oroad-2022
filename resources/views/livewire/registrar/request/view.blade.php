@@ -1,6 +1,6 @@
-<div>
+<div wire:init="contentMounted">
     @destination($this->request_application->destination_campus_id)
-        <div class="grid max-w-full grid-cols-1 gap-6 mx-auto sm:px-6 lg:grid-flow-col-dense lg:grid-cols-3">
+        <div class="mx-auto grid max-w-full grid-cols-1 gap-6 sm:px-6 lg:grid-flow-col-dense lg:grid-cols-3">
             <div wire:key="main-content"
                 class="space-y-6 lg:col-span-2 lg:col-start-1">
                 <section aria-labelledby="applicant-information-title">
@@ -47,7 +47,7 @@
                                     viewBox="0 0 24 24"
                                     stroke-width="1.5"
                                     stroke="currentColor"
-                                    class="w-5 h-5 text-blue-600">
+                                    class="h-5 w-5 text-blue-600">
                                     <path stroke-linecap="round"
                                         stroke-linejoin="round"
                                         d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
@@ -78,7 +78,7 @@
                                             viewBox="0 0 24 24"
                                             stroke-width="1.5"
                                             stroke="currentColor"
-                                            class="w-3 h-3">
+                                            class="h-3 w-3">
                                             <path stroke-linecap="round"
                                                 stroke-linejoin="round"
                                                 d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />

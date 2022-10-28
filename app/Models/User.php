@@ -52,6 +52,7 @@ class User extends Authenticatable
        return $this->roles->contains('id', 1);
     }
 
+
     /**
      * The attributes that are mass assignable.
      *

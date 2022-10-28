@@ -68,6 +68,7 @@ class ViewRequest extends Component
             'status'=> 5,
         ];
         Notification::send($users, new \App\Notifications\UserNotification($notification_details));
+        event(new \App\Events\NewRequest(auth()->user()->information->campus_id));
         DB::commit();
 
         $this->dialog()->success(

@@ -13,7 +13,7 @@ use App\Models\RequestDocument;
 use App\Models\RequestApplication;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-
+use App\Events\NewRequest;
 class CreateRequest extends Component
 {
     use Actions;
@@ -124,8 +124,8 @@ class CreateRequest extends Component
             'status'=> $user_information->student_status_id == 2 ? 8 : 1,
         ];
         Notification::send($users, new \App\Notifications\UserNotification($notification_details));
+       event(new \App\Events\NewRequest(auth()->user()->information->campus_id));
         DB::commit();
-
         return redirect()->route('requester.home');
     }
 

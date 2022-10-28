@@ -282,4 +282,12 @@ class View extends Component
        $this->document_amount = $this->request_application->request_document->document->amount;
       
     }
+
+    public function contentMounted()
+    {
+        if ($this->from) {
+           $this->emit('refreshNotification');
+        }
+    }
+
 }
