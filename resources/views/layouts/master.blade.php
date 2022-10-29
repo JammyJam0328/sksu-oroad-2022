@@ -20,6 +20,14 @@
         crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap"
         rel="stylesheet">
+    <meta property="og:type"
+        content="School Website" />
+    <meta property="og:title"
+        content="SKSU OROAD" />
+    <meta property="og:description"
+        content="Sultan Kudarat State University Online Request Of Academic Documents" />
+    <meta property="og:image"
+        content="{{ asset('images/sksu-logo.png') }}" />
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -31,7 +39,7 @@
     @livewireStyles
 </head>
 
-<body class="font-inter antialiased">
+<body class="antialiased font-inter">
     @yield('content')
     @livewireScripts
 </body>
