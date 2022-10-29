@@ -22,6 +22,16 @@
         crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap"
         rel="stylesheet">
+    {{-- <meta property="og:url"
+        content="http://www.nytimes.com/2015/02/19/arts/international/when-great-minds-dont-think-alike.html" /> --}}
+    <meta property="og:type"
+        content="School Website" />
+    <meta property="og:title"
+        content="When Great Minds Don’t Think Alike" />
+    <meta property="og:description"
+        content="Sultan Kudarat State University Online Request Of Academic Documents" />
+    <meta property="og:image"
+        content="{{ asset('images/sksu-logo.png') }}" />
     <!-- Scripts -->
     @wireUiScripts
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -31,7 +41,7 @@
 
 </head>
 
-<body class="h-screen antialiased {{ $bg }} font-inter">
+<body class="{{ $bg }} h-screen font-inter antialiased">
     <div class="h-full">
         {{ $slot }}
     </div>
