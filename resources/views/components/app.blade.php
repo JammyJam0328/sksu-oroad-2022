@@ -27,7 +27,7 @@
     <meta property="og:type"
         content="School Website" />
     <meta property="og:title"
-        content="When Great Minds Don’t Think Alike" />
+        content="SKSU OROAD" />
     <meta property="og:description"
         content="Sultan Kudarat State University Online Request Of Academic Documents" />
     <meta property="og:image"
