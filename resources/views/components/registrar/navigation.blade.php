@@ -22,21 +22,21 @@
     
     $for_access_campus_navigations = [
         [
-            'path' => '#',
+            'path' => route('registrar.documents'),
             'label' => 'Documents',
             'icon' => 'icons.documents',
             'active' => false,
         ],
-        [
-            'path' => '#',
-            'label' => 'Campus',
-            'icon' => 'icons.campuses',
-            'active' => false,
-        ],
+        // [
+        //     'path' => '#',
+        //     'label' => 'Campus',
+        //     'icon' => 'icons.campuses',
+        //     'active' => false,
+        // ],
     ];
 @endphp
 
-<nav class="flex-1 px-3 mt-5 space-y-2 bg-primary-700">
+<nav class="flex-1 px-4 mt-5">
     @foreach ($navigations as $navigation)
         <x-registrar.nav-link :active="$navigation['active']"
             :to="$navigation['path']"

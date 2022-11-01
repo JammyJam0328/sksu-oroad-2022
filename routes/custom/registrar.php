@@ -15,12 +15,16 @@ Route::prefix('registrar')->middleware([
     })->name('registrar.requests');
 
     Route::get('/requests/view/{id}', function ($id) {
-        return view('registrar.view-request',[
-            'request_application_id'=>$id
+        return view('registrar.view-request', [
+            'request_application_id' => $id,
         ]);
     })->name('registrar.view-request');
 
     Route::get('/reports', function () {
         return view('registrar.reports');
     })->name('registrar.reports');
+
+    Route::get('/documents', function () {
+        return view('registrar.documents');
+    })->name('registrar.documents');
 });

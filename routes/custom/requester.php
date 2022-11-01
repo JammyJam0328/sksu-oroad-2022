@@ -9,7 +9,7 @@ Route::prefix('requester')->middleware([
     Route::get('/home', function () {
         return view('requester.home');
     })->name('requester.home');
-    
+
     Route::get('/request/create', function () {
         return view('requester.request.index');
     })->name('requester.request-index');
@@ -27,8 +27,8 @@ Route::prefix('requester')->middleware([
     })->name('requester.information');
 
     Route::get('/requests/view/{id}', function ($id) {
-        return view('requester.view-request',[
-            'request_id' => $id
+        return view('requester.view-request', [
+            'request_id' => $id,
         ]);
     })->name('requester.view-request');
 });

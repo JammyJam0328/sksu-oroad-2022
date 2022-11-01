@@ -2,18 +2,17 @@
 
 namespace App\Http\Livewire\Requester;
 
-use App\Models\User;
 use App\Models\Campus;
 use App\Models\Purpose;
-use Livewire\Component;
-use App\Models\Document;
-use WireUi\Traits\Actions;
-use App\Models\StudentStatus;
-use App\Models\RequestDocument;
 use App\Models\RequestApplication;
+use App\Models\RequestDocument;
+use App\Models\StudentStatus;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-use App\Events\NewRequest;
+use Livewire\Component;
+use WireUi\Traits\Actions;
+
 class CreateRequest extends Component
 {
     use Actions;
@@ -51,13 +50,14 @@ class CreateRequest extends Component
                 'other_purpose' => 'required_if:purpose_id,==,0',
                 'selectedDocument.copy' => 'required|numeric|min:1',
             ]);
-        };
+        }
 
         if ($this->currentStep == 1 && $this->selectedDocument['document_id'] == null) {
             $this->dialog()->info(
                 $title = 'No Document Selected',
                 $description = 'Please select a document to continue.',
             );
+
             return;
         }
         $this->currentStep < $this->totalStep ? $this->currentStep++ : $this->currentStep = $this->totalStep;
@@ -65,7 +65,7 @@ class CreateRequest extends Component
 
     public function submitRequest()
     {
-        if ($this->selectedDocument['document_id']  == null) {
+        if ($this->selectedDocument['document_id'] == null) {
             $this->currentStep = 1;
             $this->notification()->error(
                 $title = 'Error!',
@@ -95,7 +95,7 @@ class CreateRequest extends Component
             'destination_campus_id' => auth()->user()->information->campus_id,
             'purpose_id' => $this->purpose_id,
             'other_purpose' => $this->other_purpose,
-            'valid_id' => $user_information->valid_id, 
+            'valid_id' => $user_information->valid_id,
             'status_id' => $user_information->student_status_id == 2 ? 8 : 1,
         ]);
 
@@ -106,7 +106,7 @@ class CreateRequest extends Component
             'with_authentication' => $this->selectedDocument['with_authentication'],
             'copy' => $this->selectedDocument['copy'],
         ]);
-        
+
         $request_application->transaction_logs()->create([
             'description' => 'Request Submitted',
             'remarks' => now(),
@@ -117,32 +117,33 @@ class CreateRequest extends Component
                             $query->where('role_id', 2);
                         })->get();
         $notification_details = [
-            'from' => $request_application->first_name . ' ' . $request_application->last_name,
+            'from' => $request_application->first_name.' '.$request_application->last_name,
             'title' => 'New Request',
-            'message' => $request_application->first_name . ' ' . $request_application->last_name .' has submitted a new request.',
+            'message' => $request_application->first_name.' '.$request_application->last_name.' has submitted a new request.',
             'link' => route('registrar.view-request', $request_application->id),
-            'status'=> $user_information->student_status_id == 2 ? 8 : 1,
+            'status' => $user_information->student_status_id == 2 ? 8 : 1,
         ];
         Notification::send($users, new \App\Notifications\UserNotification($notification_details));
-       event(new \App\Events\NewRequest(auth()->user()->information->campus_id));
+        event(new \App\Events\NewRequest(auth()->user()->information->campus_id));
         DB::commit();
+
         return redirect()->route('requester.home');
     }
 
     public function generateUniqueCode()
     {
         $count = RequestApplication::count();
-        $code = 'SKSU-' . date('Y') . '-' . str_pad($count, 5, '0', STR_PAD_LEFT);
+        $code = 'SKSU-'.date('Y').'-'.str_pad($count, 5, '0', STR_PAD_LEFT);
         $check = RequestApplication::where('code', $code)->exists();
         if ($check) {
             $this->generateUniqueCode();
         }
+
         return $code;
     }
 
     public function getFirstDestinations()
     {
-        
     }
 
     public function mount()

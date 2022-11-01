@@ -2,10 +2,10 @@
 
 namespace App\Http\Livewire\Registrar\Request;
 
-use Livewire\Component;
-use WireUi\Traits\Actions;
 use App\Models\RequestApplication;
 use Illuminate\Support\Facades\DB;
+use Livewire\Component;
+use WireUi\Traits\Actions;
 
 class View extends Component
 {
@@ -16,7 +16,7 @@ class View extends Component
     public $request_application_id;
 
     public $document_amount;
-    
+
     public $additional_charge;
 
     public $remarks;
@@ -43,22 +43,21 @@ class View extends Component
             'remarks' => 'required',
         ]);
         $this->dialog()->confirm([
-            'title'       => 'Are you Sure?',
+            'title' => 'Are you Sure?',
             'description' => 'This will approve the payment of this request.',
-            'icon'        => 'question',
-            'accept'      => [
-                'label'  => 'Yes, approve it',
+            'icon' => 'question',
+            'accept' => [
+                'label' => 'Yes, approve it',
                 'method' => 'confirmApprovePayment',
             ],
             'reject' => [
-                'label'  => 'No, cancel',
+                'label' => 'No, cancel',
             ],
         ]);
     }
 
     public function confirmApprovePayment()
     {
-        
         DB::beginTransaction();
 
         $this->request_application->update([
@@ -76,7 +75,7 @@ class View extends Component
         ]);
 
         $this->request_application->refresh();
-        
+
         DB::commit();
 
         $this->dialog()->success(
@@ -84,7 +83,6 @@ class View extends Component
             $description = 'The payment of this request has been approved.',
         );
     }
-    
 
     public function approved()
     {
@@ -94,15 +92,15 @@ class View extends Component
             'remarks' => 'required|string',
         ]);
         $this->dialog()->confirm([
-            'title'       => 'Are you Sure?',
+            'title' => 'Are you Sure?',
             'description' => 'This will approve the request',
-            'icon'        => 'question',
-            'accept'      => [
-                'label'  => 'Yes, approve it',
+            'icon' => 'question',
+            'accept' => [
+                'label' => 'Yes, approve it',
                 'method' => 'confirmApproved',
             ],
             'reject' => [
-                'label'  => 'No, cancel',
+                'label' => 'No, cancel',
             ],
         ]);
     }
@@ -113,14 +111,14 @@ class View extends Component
             'status_id' => 2,
         ]);
         DB::beginTransaction();
-        $total_document = $this->request_application->request_document->with_authentication ? $this->document_amount + 15  : $this->document_amount;
+        $total_document = $this->request_application->request_document->with_authentication ? $this->document_amount + 15 : $this->document_amount;
         $this->request_application->request_document()->update([
             'amount' => $this->document_amount,
         ]);
         $this->request_application->payment()->create([
             'amount' => $total_document * $this->request_application->request_document->copy,
             'additional_fee' => $this->additional_charge,
-            'total_amount'=> ($total_document * $this->request_application->request_document->copy) + $this->additional_charge,
+            'total_amount' => ($total_document * $this->request_application->request_document->copy) + $this->additional_charge,
         ]);
         $this->request_application->transaction_logs()->create([
             'description' => 'Your request has been approved. Please proceed to payment.',
@@ -137,15 +135,15 @@ class View extends Component
     public function markAsClaimed()
     {
         $this->dialog()->confirm([
-            'title'       => 'Are you Sure?',
+            'title' => 'Are you Sure?',
             'description' => 'This will mark the request as claimed',
-            'icon'        => 'question',
-            'accept'      => [
-                'label'  => 'Yes, mark it',
+            'icon' => 'question',
+            'accept' => [
+                'label' => 'Yes, mark it',
                 'method' => 'confirmMarkAsClaimed',
             ],
             'reject' => [
-                'label'  => 'No, cancel',
+                'label' => 'No, cancel',
             ],
         ]);
     }
@@ -169,15 +167,15 @@ class View extends Component
     public function denyRequest()
     {
         $this->dialog()->confirm([
-            'title'       => 'Are you Sure?',
+            'title' => 'Are you Sure?',
             'description' => 'This will deny the request',
-            'icon'        => 'question',
-            'accept'      => [
-                'label'  => 'Yes, deny it',
+            'icon' => 'question',
+            'accept' => [
+                'label' => 'Yes, deny it',
                 'method' => 'confirmDenyRequest',
             ],
             'reject' => [
-                'label'  => 'No, cancel',
+                'label' => 'No, cancel',
             ],
         ]);
     }
@@ -204,15 +202,15 @@ class View extends Component
             'remarks' => 'required',
         ]);
         $this->dialog()->confirm([
-            'title'       => 'Are you Sure?',
+            'title' => 'Are you Sure?',
             'description' => 'This will deny the payment of this request',
-            'icon'        => 'question',
-            'accept'      => [
-                'label'  => 'Yes, deny it',
+            'icon' => 'question',
+            'accept' => [
+                'label' => 'Yes, deny it',
                 'method' => 'confirmDenyPayment',
             ],
             'reject' => [
-                'label'  => 'No, cancel',
+                'label' => 'No, cancel',
             ],
         ]);
     }
@@ -236,15 +234,15 @@ class View extends Component
     public function markAsCleared()
     {
         $this->dialog()->confirm([
-            'title'       => 'Are you Sure?',
+            'title' => 'Are you Sure?',
             'description' => 'This means the students clearance is cleared',
-            'icon'        => 'question',
-            'accept'      => [
-                'label'  => 'Yes, Confirm',
+            'icon' => 'question',
+            'accept' => [
+                'label' => 'Yes, Confirm',
                 'method' => 'confirmMarkAsCleared',
             ],
             'reject' => [
-                'label'  => 'No, cancel',
+                'label' => 'No, cancel',
             ],
         ]);
     }
@@ -265,29 +263,29 @@ class View extends Component
             $description = 'The request has been cleared.',
         );
     }
+
     public function render()
     {
         return view('livewire.registrar.request.view');
     }
+
     public function mount()
     {
         if ($this->from) {
             auth()->user()->unreadNotifications->where('id', $this->from)->markAsRead();
         }
-        $this->request_application = RequestApplication::where('id',$this->request_application_id)
-            ->with(['request_document.document','campus','program','student_status','status','purpose','transaction_logs'=>function($query){
-                return  $query->orderBy('created_at','desc');
+        $this->request_application = RequestApplication::where('id', $this->request_application_id)
+            ->with(['request_document.document', 'campus', 'program', 'student_status', 'status', 'purpose', 'transaction_logs' => function ($query) {
+                return  $query->orderBy('created_at', 'desc');
             }])->first();
-       abort_if(!$this->request_application, 404);
-       $this->document_amount = $this->request_application->request_document->document->amount;
-      
+        abort_if(! $this->request_application, 404);
+        $this->document_amount = $this->request_application->request_document->document->amount;
     }
 
     public function contentMounted()
     {
         if ($this->from) {
-           $this->emit('refreshNotification');
+            $this->emit('refreshNotification');
         }
     }
-
 }

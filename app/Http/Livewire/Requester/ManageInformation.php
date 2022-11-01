@@ -6,8 +6,9 @@ use App\Models\Campus;
 use App\Models\Information;
 use App\Models\StudentStatus;
 use Livewire\Component;
-use WireUi\Traits\Actions;
 use Livewire\WithFileUploads;
+use WireUi\Traits\Actions;
+
 class ManageInformation extends Component
 {
     use Actions, WithFileUploads;

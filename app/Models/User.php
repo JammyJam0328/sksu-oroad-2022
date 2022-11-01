@@ -47,11 +47,10 @@ class User extends Authenticatable
         return $this->hasOne(Information::class);
     }
 
-    public function isAdmin() : bool
+    public function isAdmin(): bool
     {
-       return $this->roles->contains('id', 1);
+        return $this->campus_id == 1;
     }
-
 
     /**
      * The attributes that are mass assignable.

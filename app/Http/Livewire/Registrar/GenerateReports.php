@@ -2,13 +2,12 @@
 
 namespace App\Http\Livewire\Registrar;
 
+use App\Models\RequestApplication;
 use App\Models\Status;
 use Livewire\Component;
-use App\Models\RequestApplication;
 
 class GenerateReports extends Component
 {
-
     public $date_range = [
         'from' => null,
         'to' => null,
@@ -18,12 +17,12 @@ class GenerateReports extends Component
 
     public $selected_type = '1';
 
-    public $selected_status  ;
+    public $selected_status;
 
     public $report_types = [
-            '1' => 'All Request Application',
-            '2' => "By Date",
-            '2' => "By Date Range",
+        '1' => 'All Request Application',
+        '2' => 'By Date',
+        '2' => 'By Date Range',
     ];
 
     public function getHeaders()
@@ -45,25 +44,26 @@ class GenerateReports extends Component
                     'Status',
                 ];
                 break;
-                case '3':
-                    return [
-                        'Date',
-                        'Code',
-                        'Full Name',
-                        'Document',
-                        'Status',
-                    ];
-                    break;
+            case '3':
+                return [
+                    'Date',
+                    'Code',
+                    'Full Name',
+                    'Document',
+                    'Status',
+                ];
+                break;
         }
     }
-   
+
     public function mount()
     {
-        $this->statuses = Status::all('id','name');
+        $this->statuses = Status::all('id', 'name');
     }
+
     public function render()
     {
-        return view('livewire.registrar.generate-reports',[
+        return view('livewire.registrar.generate-reports', [
             'request_applications' => RequestApplication::where('destination_campus_id', auth()->user()->campus_id)
             ->when($this->date_range['from'], function ($query) {
                 $query->whereDate('created_at', '>=', $this->date_range['from']);
@@ -74,14 +74,13 @@ class GenerateReports extends Component
             ->when($this->selected_status, function ($query) {
                 $query->where('status_id', $this->selected_status);
             })
-            ->with(['request_document.document', 'campus','status'])
+            ->with(['request_document.document', 'campus', 'status'])
             ->get(),
         ]);
     }
 
     // public function loadAllRequestApplication()
     // {
-    //     $this->request_applications = 
+    //     $this->request_applications =
     // }
-
 }

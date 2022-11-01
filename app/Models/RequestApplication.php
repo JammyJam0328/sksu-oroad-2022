@@ -31,7 +31,6 @@ class RequestApplication extends Model
         return $this->hasOne(RequestDocument::class);
     }
 
-
     public function student_status()
     {
         return $this->belongsTo(StudentStatus::class);
@@ -57,37 +56,33 @@ class RequestApplication extends Model
         return $this->hasOne(Payment::class);
     }
 
-
-
-
-    // 
-    public function isPending() : bool
+    //
+    public function isPending(): bool
     {
         return $this->status_id == 1;
     }
 
-    public function isApproved() : bool
+    public function isApproved(): bool
     {
         return $this->status_id == 2;
     }
 
-    public function paymentSubmitted() : bool
+    public function paymentSubmitted(): bool
     {
         return $this->status_id == 4;
     }
 
-    public function isForRelease() : bool
+    public function isForRelease(): bool
     {
-
         return $this->status_id == 5;
     }
 
-    public function denied() : bool
+    public function denied(): bool
     {
         return $this->status_id == 3;
     }
 
-    public function inClearanceValidation() : bool
+    public function inClearanceValidation(): bool
     {
         return $this->status_id == 8;
     }

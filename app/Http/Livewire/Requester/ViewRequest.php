@@ -2,13 +2,13 @@
 
 namespace App\Http\Livewire\Requester;
 
-use App\Models\User;
-use Livewire\Component;
-use WireUi\Traits\Actions;
-use Livewire\WithFileUploads;
 use App\Models\RequestApplication;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Livewire\Component;
+use Livewire\WithFileUploads;
+use WireUi\Traits\Actions;
 
 class ViewRequest extends Component
 {
@@ -20,30 +20,29 @@ class ViewRequest extends Component
 
     public $reference_number;
 
-
     public function getRequestApplicationProperty()
     {
-        return RequestApplication::where('id',$this->request_id)
-                ->with(['request_document.document','campus','program','student_status','status','purpose','payment',
-                'transaction_logs'=>function($query){
-                   return  $query->orderBy('created_at','desc');
-                }
+        return RequestApplication::where('id', $this->request_id)
+                ->with(['request_document.document', 'campus', 'program', 'student_status', 'status', 'purpose', 'payment',
+                    'transaction_logs' => function ($query) {
+                        return  $query->orderBy('created_at', 'desc');
+                    },
                 ])->first();
     }
 
     public function submitPayment()
     {
         $this->validate([
-             'images.*' => 'required|image|max:2048',
-             'reference_number' => 'required|string',
+            'images.*' => 'required|image|max:2048',
+            'reference_number' => 'required|string',
         ]);
         DB::beginTransaction();
         $this->requestApplication->payment()->update([
             'reference_number' => $this->reference_number,
         ]);
-        foreach($this->images as $image){
+        foreach ($this->images as $image) {
             $this->requestApplication->payment->proofs()->create([
-                'file_path' => $image->store('proofs','public'),
+                'file_path' => $image->store('proofs', 'public'),
             ]);
         }
 
@@ -52,7 +51,7 @@ class ViewRequest extends Component
         ]);
 
         $this->requestApplication->transaction_logs()->create([
-            'description' => "Payment has been submitted",
+            'description' => 'Payment has been submitted',
             'remarks' => 'REF : '.$this->reference_number,
         ]);
 
@@ -61,11 +60,11 @@ class ViewRequest extends Component
                             $query->where('role_id', 2);
                         })->get();
         $notification_details = [
-            'from' => $this->requestApplication->first_name . ' ' . $this->requestApplication->last_name,
+            'from' => $this->requestApplication->first_name.' '.$this->requestApplication->last_name,
             'title' => 'Payment Submitted',
-            'message' => $this->requestApplication->first_name . ' ' . $this->requestApplication->last_name .' has submitted a payment for request CODE :'.$this->requestApplication->code,
+            'message' => $this->requestApplication->first_name.' '.$this->requestApplication->last_name.' has submitted a payment for request CODE :'.$this->requestApplication->code,
             'link' => route('registrar.view-request', $this->requestApplication->id),
-            'status'=> 5,
+            'status' => 5,
         ];
         Notification::send($users, new \App\Notifications\UserNotification($notification_details));
         event(new \App\Events\NewRequest(auth()->user()->information->campus_id));
@@ -79,8 +78,9 @@ class ViewRequest extends Component
 
     public function mount()
     {
-         abort_if(!$this->requestApplication, 404);
+        abort_if(! $this->requestApplication, 404);
     }
+
     public function render()
     {
         return view('livewire.requester.view-request');

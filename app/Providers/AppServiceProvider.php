@@ -31,6 +31,5 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('requestIsPending', function ($status_id) {
             return $status_id == 1;
         });
-
     }
 }

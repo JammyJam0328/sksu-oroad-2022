@@ -1,10 +1,10 @@
 @props(['label', 'value', 'border' => ''])
 <div
-    class="relative overflow-hidden rounded-lg ring-1 hover:ring ring-black ring-opacity-5 hover:ring-opacity-80 duration-150 hover:bg-green-50 hover:ring-green-600 bg-white px-4 py-3 shadow sm:py-3">
-    <dt class="truncate  font-medium text-gray-500 uppercase">
+    class="relative px-6 py-5 overflow-hidden duration-150 shadow rounded-xl bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:ring-opacity-80">
+    <dt class="text-xl font-medium text-white uppercase truncate">
         {{ $label }}
     </dt>
-    <dd class="mt-1 text-3xl font-semibold tracking-tight text-gray-700">
+    <dd class="mt-1 text-3xl font-semibold tracking-tight text-yellow-300">
         {{ $value }}
         {{ $slot }}
     </dd>
